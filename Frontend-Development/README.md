@@ -4,4 +4,3 @@
 - **Resources:**
   - Sample projects
   - Code repositories
-  
