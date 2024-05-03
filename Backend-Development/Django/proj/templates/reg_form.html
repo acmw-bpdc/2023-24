@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Workshop Registration</title>
+</head>
+<body style="color: #DB1792; background-color: mintcream; font-size: 20px;" > 
+    <center>
+        <form method=POST action=regcsv>
+            {% csrf_token %}
+            <br><br><br>
+
+            <b>Student ID</b><br>
+            <input type=text name=s_id><br><p>
+            <p>
+                <b>Student Name</b><br>
+                <input type=text name=s_name><br>
+            <p><p>
+                <b>Student E-Mail ID</b><br>
+                <input type=text name=s_mail><br>
+            <p><p>
+                <b>Mode of attendance</b><br>
+
+                <select name="online">
+                    <option value="on">Online</option>
+                    <option value="off">Offline</option>
+                </select>
+
+            <p>
+                <br>
+                <input type="submit" value="SUBMIT">
+        </form>
+    </center>
+</body>
+</html>
