@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title> Deliciously Simple </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <link rel="stylesheet" href="homepage_style.css">
+        <script>
+            function openContent(evt, Name) {
+                
+            }
+        </script>
+    </head>
+    <body>
+        <header>
+            <div class="logo-container">
+                <img src="cooking-logo.png" alt="Logo" width="80px" height="80px"> <span>Deliciously Simple</span>
+            </div>
+            <nav class="menus">
+                <a href="#" class="menu-item">Home</a>
+                <a href="#" class="menu-item">About</a>
+                <a href="#" class="menu-item">Recipes</a>
+                <a href="#" class="menu-item">Contact</a>
+                <span class="navbar" onclick="hamburger_nav()">
+                    <div class="hamburger-menu"> <strong>
+                        <div class="bar">__</div>
+                        <div class="bar">__</div>
+                        <div class="bar">__</div>
+                    </strong></div>
+                    <ul id="nav-links">
+                      <li><a href="#">Home</a></li>
+                      <li><a href="#">About</a></li>
+                      <li><a href="#">Recipes</a></li>
+                      <li><a href="#">Contact</a></li>
+                    </ul>
+                </span>
+            </nav>   
+        </header>
+        <div style="margin-top: 25px;">
+            Our mission is simple: to inspire, educate, and ignite your passion for cooking. Whether you're a seasoned chef or a novice in the kitchen, we invite you to explore our recipes, culinary adventures, and kitchen stories that make cooking an unforgettable experience. So, grab your apron, sharpen those knives, and let's embark on a culinary journey filled with flavors, aromas, and memories that will last a lifetime. Happy cooking!
+        </div>
+        <div class="slider">
+            <img src="soup.jpg" alt="Soup" id="img-1">
+            <img src="snacks.jpg" alt="Snacks" id="img-2">
+            <img src="main-course.jpg" alt="Main Course" id="img-3">
+            <img src="dessert.jpg" alt="Dessert" id="img-4">
+        </div>
+        <div class="navigation-button">
+            <span class="dot active" onclick="changeSlide(0)"></span>
+            <span class="dot" onclick="changeSlide(1)"></span>
+            <span class="dot" onclick="changeSlide(2)"></span>
+            <span class="dot" onclick="changeSlide(3)"></span>
+        </div>
+        <script>
+            
+        </script>
+        <div style="margin-bottom: 15px;">
+            Are you ready to embark on a mouthwatering journey through the world of culinary delights? Our cooking blog is your passport to the realm of extraordinary flavors, where we explore three delectable categories that are sure to tantalize your taste buds: snacks, entrées, and desserts.
+        </div>
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks" onclick="openContent(event, 'Snacks')" id="defaultOpen">Snacks</button>
+            <button class="tablinks" onclick="openContent(event, 'Entrees')">Entrees</button>
+            <button class="tablinks" onclick="openContent(event, 'Desserts')">Desserts</button>
+        </div>
+  
+        <!-- Tab content -->
+        <div id="Snacks" class="tabcontent">
+            <h3>Snacks</h3>
+            <p>Crunchy, savory, and oh-so-irresistible, snacks are the unsung heroes of the culinary world. Whether you're hosting a game night, craving a mid-afternoon pick-me-up, or simply looking to spice up your movie nights, our snack recipes will take your snacking game to a whole new level. From classic favorites like crispy potato chips to innovative, globally-inspired bites, get ready to discover a world of snack-tastic creations that will leave you craving for more.</p>
+            Click <a href="#">HERE</a> to go to our Snacks.
+        </div>
+  
+        <div id="Entrees" class="tabcontent">
+            <h3>Entrees</h3>
+            <p>The heart of any meal, the entrees and main courses on our blog are a celebration of culinary mastery. From hearty comfort food classics to elegant gourmet creations, we're here to guide you through crafting memorable, restaurant-quality dishes in the comfort of your own kitchen. Explore a diverse array of cuisines and cooking techniques as we share recipes, tips, and tricks that will turn your weeknight dinners and special occasions into culinary triumphs.</p>
+            Click <a href="#">HERE</a> to go to our Entrees.
+        </div>
+  
+        <div id="Desserts" class="tabcontent">
+            <h3>Desserts</h3>
+            <p>Save room for the grand finale – desserts! Here, we embark on a sugar-coated journey where sweet temptations and indulgent creations reign supreme. Whether you have a sweet tooth that craves rich, chocolatey delights or you're drawn to the fruity, refreshing world of desserts, we've got you covered. Join us as we dive into the art of baking, pastry, and confectionery, revealing the secrets to crafting heavenly desserts that will leave you and your guests in awe.</p>
+            Click <a href="#">HERE</a> to go to our Desserts.
+        </div>
+        <script>
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+        <button onclick="topFunction()" id="myBtn">Top</button>
+        <script src=""></script>
+    </body>
+</html>
