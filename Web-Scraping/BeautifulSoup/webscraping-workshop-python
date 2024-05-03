@@ -1,0 +1,1233 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "<h1> Web Scraping with Python </h1>"
+      ],
+      "metadata": {
+        "id": "1PQu0RyLcitR"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Web scraping is an automatic method to obtain large amounts of data from websites.\n",
+        "Web scraping is used for:\n",
+        "- Price monitoring\n",
+        "- Market research\n",
+        "- News monitoring\n",
+        "- Sentiment analysis\n",
+        "- Email marketing\n",
+        "- Collecting data for machine learning and deep learning models\n",
+        "\n",
+        "Web pages can either be scraped using APIs or parsing web pages.\n",
+        "There are various libraries for parsing web pages using Python. These include BeautifulSoup, Scrapy, Selenium, ZenRows, Playwright etc."
+      ],
+      "metadata": {
+        "id": "faTN-js5dQr0"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Legal and Ethical considerations for web scraping\n",
+        "Just because data is present on the internet, it doesn't mean it can or should be scraped.\n",
+        "Always look into permissions, what data can be scraped, how much can be scraped and how are you allowed to use this data.\n",
+        "A robots.txt file specifies which pages of a website can and can't be accessed for crawling and scraping."
+      ],
+      "metadata": {
+        "id": "7lxVjoJ7doZd"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Regular Expressions"
+      ],
+      "metadata": {
+        "id": "k2JFCqDclM9l"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "A regular expression (RegEx) is a sequence of characters that forms a search pattern. This is used to check if a string has a specified pattern.\n",
+        "Regular expressions are used to select a specific pattern of information in web scraping.\n",
+        "\n",
+        "Function | Description\n",
+        "---------|------------\n",
+        "findall (match_pattern, search_string) | Returns a list containing all matches\n",
+        "search (match_pattern, search_string) | Returns a Match object if there is a match anywhere in the string (only first occurrence)\n",
+        "split (match_pattern, search_string, maxsplit) | Returns a list where the string has been split at each match\n",
+        "sub (match_pattern, replacement, search_string, count) | Replaces one or many matches with a string\n"
+      ],
+      "metadata": {
+        "id": "SFO0-Sl1lgeV"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import re\n",
+        "\n",
+        "string = \"Stop the spinning top.\""
+      ],
+      "metadata": {
+        "id": "4VfsSt8rlf-R"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "ex1 = re.findall('top',string)\n",
+        "print(ex1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "k2QTd_pVTI1P",
+        "outputId": "148fe0b0-deea-4eb9-fcfd-6daed46f51ab"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['top', 'top']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "words = re.split(' ', string)\n",
+        "print(words)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "tYu8Tod1TVmH",
+        "outputId": "c09517d3-e1dc-4cc8-8be9-f5a6da80e8f0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['Stop', 'the', 'spinning', 'top.']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "ex = re.sub('top','wheel', string)\n",
+        "print(ex)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dFSJeQI8Thyj",
+        "outputId": "9af95650-8a5c-4f48-be94-bafa8830cc57"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Swheel the spinning wheel.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Match Object**\n",
+        "\n",
+        "The Match object has information about the search and result.\n",
+        "- .span() returns a tuple with the start and end position of the match.\n",
+        "- .string returns the string passed to the search function.\n",
+        "- .group() returns the part of the string where the match was found\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "7DszZSWG96gS"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "string = \"Stop the spinning top.\"\n",
+        "\n",
+        "x = re.search (r'spin', string)\n",
+        "print(x)    # x = None if the pattern is not found\n",
+        "print(\"span:\", x.span())\n",
+        "print(\"string:\", x.string)\n",
+        "print(\"group:\", x.group())"
+      ],
+      "metadata": {
+        "id": "Ykk3_MKD9oRh",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "9d062867-dc1e-4d1a-d346-d58ed897d98c"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "<re.Match object; span=(9, 13), match='spin'>\n",
+            "span: (9, 13)\n",
+            "string: Stop the spinning top.\n",
+            "group: spin\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "y = re.search('bin', string)\n",
+        "print(y)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Mf7DNxbCT3BY",
+        "outputId": "c6b4a082-3fbd-4f28-ed82-00e1b1960390"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "None\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "r4NuSiMkT2_d"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "| Symbol | Description |\n",
+        "|---|---|\n",
+        "| ^ | Matches at the beginning of a line |\n",
+        "| $ | Matches at the end of the line |\n",
+        "| . | Matches any character |\n",
+        "| \\s | Matches whitespace |\n",
+        "| \\S | Matches any non-whitespace character |\n",
+        "| * | Zero or more occurrences |\n",
+        "| + | One or more occurrences |\n",
+        "| ? | Zero or one occurrences |\n",
+        "| [aeiou] | Matches a single character in the listed set |\n",
+        "| [^XYZ] | Matches a single character not in the listed set |\n",
+        "| [a-z0-9] | The set of characters can include a range |\n",
+        "| ( | Indicates where string extraction is to start |\n",
+        "| ) | Indicates where string extraction is to end |\n",
+        "| \\b | Returns a match where the specified characters are at the beginning or at the end of a word |\n",
+        "| \\B | Returns a match where the specified characters are present, but NOT at the beginning or at the end of a word |"
+      ],
+      "metadata": {
+        "id": "GiSLGmAM0L7S"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "txt1 = 'the cat sits on the cot.'"
+      ],
+      "metadata": {
+        "id": "aX5q_Ctn1JbU"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# words starting with c and ending with t\n",
+        "ex1 = re.findall(r'c.*t', txt1)\n",
+        "print(ex1)"
+      ],
+      "metadata": {
+        "id": "poS86kvE3Prm",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "fc07f599-8e40-4f2a-91d3-d734bd698f82"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['cat sits on the cot']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# find all 'the's\n",
+        "ex2 = re.findall(r'the', txt1)\n",
+        "print(ex2)"
+      ],
+      "metadata": {
+        "id": "_od-59fH3T3B",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "00d49580-2030-462b-8b1b-17c484f493a5"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['the', 'the']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# find starting 'the's\n",
+        "ex3 = re.findall('^the', txt1)\n",
+        "print(ex3)"
+      ],
+      "metadata": {
+        "id": "R35FP2k-3ePR",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "f948fc7f-2dcc-45e3-9fba-a78332466419"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['the']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# extract words\n",
+        "ex4 = re.split('\\s', txt1)\n",
+        "print(ex4)"
+      ],
+      "metadata": {
+        "id": "e5FLc2Nx3idU",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "2c58ef7d-2840-43f8-824d-9515f47ac905"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['the', 'cat', 'sits', 'on', 'the', 'cot.']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "txt2 = 'THE CAT EATS A CARROT IN THE CT SCAN.'\n",
+        "\n",
+        "ex5 = re.findall('C.?T', txt2)\n",
+        "print('C.?T:', ex5)"
+      ],
+      "metadata": {
+        "id": "DDeTN_oR4Vkp",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "f6145469-721b-44c2-dd34-0749dd4b95f1"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "C.?T: ['CAT', 'CT']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "ex6 = re.findall('C.*T', txt2)\n",
+        "print(ex6)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "S_q5fGESVLJj",
+        "outputId": "9868392e-05cf-4bc4-b643-636a8cb6b626"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['CAT EATS A CARROT IN THE CT']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "ex7 = re.findall('C.*?T', txt2)\n",
+        "print(ex7)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OUrxit_6VYKd",
+        "outputId": "7ad54303-2ec5-47e1-a25f-58cf30cde128"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['CAT', 'CARROT', 'CT']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "txt3 = \"\"\"The majestic mountains towered above the quaint little village nestled in the valley, while the river meandered\n",
+        "gently through the lush greenery, creating a serene and picturesque landscape.\"\"\"\n",
+        "\n",
+        "vowels = re.findall('[aeiouAEIOU]', txt3)\n",
+        "print(len(vowels))\n",
+        "consonants = re.findall('[^aeiouAEIOU0-9\\s_,.]', txt3)\n",
+        "print(len(consonants))"
+      ],
+      "metadata": {
+        "id": "8Js1_5vf6U0G",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "95720b88-846e-4378-818a-7b71aa6f4554"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "62\n",
+            "98\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## HTTP Libraries for Python\n",
+        "In order to scrape data from websites, first a connection must be established with the website."
+      ],
+      "metadata": {
+        "id": "ic1U4zBy7aFF"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**urllib** <br>\n",
+        "urllib is a package that is part of the Python Standard Library. It has several modules for working with URLs like:\n",
+        "- urllib.request for opening and reading URLs\n",
+        "- urllib.error containing the exceptions raised by urllib.request\n",
+        "- urllib.parse for parsing URLs\n",
+        "- urllib.robotparser for parsing robots.txt files <br><br>\n",
+        "It is suitable for simple tasks but lacks many features that are required for more complex web interactions."
+      ],
+      "metadata": {
+        "id": "33le--vl7iuA"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**urllib3** <br>\n",
+        "urllib3 is a powerful, user-friendly third-party HTTP client for Python, which includes additional features like:\n",
+        "- Thread safety.\n",
+        "- Connection pooling.\n",
+        "- Client-side TLS/SSL verification.\n",
+        "- File uploads with multipart encoding.\n",
+        "- Helpers for retrying requests and dealing with HTTP redirects.\n",
+        "- Support for gzip, deflate, brotli, and zstd encoding.\n",
+        "- Proxy support for HTTP and SOCKS.\n",
+        "- 100% test coverage."
+      ],
+      "metadata": {
+        "id": "9smDGCzi8Lom"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Requests** <br>\n",
+        "Requests is a simple and elegant HTTP library for Python, built on top of urllib3."
+      ],
+      "metadata": {
+        "id": "0vasueIJ8cKj"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Understanding HTTP Headers\n",
+        "A HTTP header gives additional information (metadata) about the request or response. <br>\n",
+        "There are 3 types of headers: General, Response and Request headers."
+      ],
+      "metadata": {
+        "id": "_37EQzae8uiU"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Web Scraping with API\n"
+      ],
+      "metadata": {
+        "id": "9eaxaqUPb_cF"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "MA66kp2sXap0"
+      },
+      "outputs": [],
+      "source": [
+        "import requests\n",
+        "import json"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "url = \"https://openlibrary.org/search/authors.json?q=twain\"\n",
+        "response = requests.get(url)"
+      ],
+      "metadata": {
+        "id": "lEPhr9tcXoG0"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(response.headers)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "61g-9MujXasz",
+        "outputId": "ae74bb77-856e-40e8-c412-ea4a26b78dd5"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "{'Server': 'nginx/1.18.0 (Ubuntu)', 'Date': 'Fri, 19 Apr 2024 12:38:19 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'access-control-allow-origin': '*', 'access-control-allow-method': 'GET, OPTIONS', 'access-control-max-age': '86400', 'x-ol-stats': '\"SR 1 0.301 TT 0 0.310\"', 'Referrer-Policy': 'no-referrer-when-downgrade'}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# View response headers\n",
+        "print(\"Response Headers:\")\n",
+        "for header, value in response.headers.items():\n",
+        "  print(f\"{header}:{value}\")\n",
+        "print(\"\\n\")\n",
+        "\n",
+        "# View request headers\n",
+        "print(\"Request Headers:\")\n",
+        "for header, value in response.request.headers.items():\n",
+        "  print(f\"{header}:{value}\")"
+      ],
+      "metadata": {
+        "id": "Czs_ujtxYDlb",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "00a404ad-855a-4d97-d09e-227dd3f28b7a"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Response Headers:\n",
+            "Server:nginx/1.18.0 (Ubuntu)\n",
+            "Date:Fri, 19 Apr 2024 12:38:19 GMT\n",
+            "Content-Type:application/json\n",
+            "Transfer-Encoding:chunked\n",
+            "Connection:keep-alive\n",
+            "access-control-allow-origin:*\n",
+            "access-control-allow-method:GET, OPTIONS\n",
+            "access-control-max-age:86400\n",
+            "x-ol-stats:\"SR 1 0.301 TT 0 0.310\"\n",
+            "Referrer-Policy:no-referrer-when-downgrade\n",
+            "\n",
+            "\n",
+            "Request Headers:\n",
+            "User-Agent:python-requests/2.31.0\n",
+            "Accept-Encoding:gzip, deflate\n",
+            "Accept:*/*\n",
+            "Connection:keep-alive\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# View General Headers\n",
+        "\n",
+        "# Accessing Request URL\n",
+        "print(response.url)\n",
+        "\n",
+        "# Accessing Request Method\n",
+        "print(response.request.method)\n",
+        "\n",
+        "# Accessing Status Code\n",
+        "print(response.status_code)\n"
+      ],
+      "metadata": {
+        "id": "DIN5yQSiYhSx",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "9120efde-3164-4ff7-9ef5-542f9787913d"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "https://openlibrary.org/search/authors.json?q=twain\n",
+            "GET\n",
+            "200\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from urllib import robotparser"
+      ],
+      "metadata": {
+        "id": "igCH_d_3BcT2"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "rp = robotparser.RobotFileParser()\n",
+        "rp.set_url(f\"{url}/robots.txt\")\n",
+        "rp.read()\n",
+        "print(rp.can_fetch('*', url))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "901X9tX0YM8Y",
+        "outputId": "4789dc26-480a-488a-f40c-d5a446a2cadb"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "True\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def get_info(book_name):\n",
+        "  query_book = book_name.lower()\n",
+        "  query_book = query_book.replace(' ', '+')\n",
+        "\n",
+        "  resp = requests.get(f\"https://openlibrary.org/search.json?title={query_book}\")\n",
+        "  info = resp.json()\n",
+        "\n",
+        "  author = info['docs'][0]['author_name'][0]\n",
+        "  publish_year = info['docs'][0]['first_publish_year']\n",
+        "  avg_rating = info['docs'][0]['ratings_average']\n",
+        "  subjects = info['docs'][0]['subject']\n",
+        "  chars = info['docs'][0]['person']\n",
+        "\n",
+        "  print(f\"{book_name} was written by {author}. It was published in {publish_year}. It has an average rating of {avg_rating}.\")\n",
+        "  return subjects, chars"
+      ],
+      "metadata": {
+        "id": "GZJFxgteZIdB"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "book1 = input('Enter 1st book name: ')\n",
+        "book2 = input('Enter 2nd book name: ')"
+      ],
+      "metadata": {
+        "id": "z0BtMs2UZows",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "47981662-b784-46a0-9f3a-a902f2feff54"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Enter 1st book name: The Hunger Games\n",
+            "Enter 2nd book name: Catching Fire\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "sub1, chars1 = get_info(book1)\n",
+        "sub1 = set(sub1)\n",
+        "chars1 = set(chars1)\n",
+        "sub2, chars2 = get_info(book2)\n",
+        "sub2 = set(sub2)\n",
+        "chars2 = set(chars2)\n",
+        "\n",
+        "common_sub = list(sub1 & sub2)\n",
+        "print('Common subjects are:',common_sub)\n",
+        "common_chars = list(chars1 & chars2)\n",
+        "print('Common characters are:',common_chars)"
+      ],
+      "metadata": {
+        "id": "XCYnrp2HZy4Y",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "a1620289-4ba9-48cd-b57a-7acfc9de1f88"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The Hunger Games was written by Suzanne Collins. It was published in 2008. It has an average rating of 4.0733695.\n",
+            "Catching Fire was written by Suzanne Collins. It was published in 2009. It has an average rating of 4.1074767.\n",
+            "Common subjects are: ['Survival, fiction', 'Televisión', 'Habiletés de survie', 'Blind', 'Reading Level-Grade 9', 'Survival skills', 'New York Times bestseller', 'Novela', 'Survival Stories', 'Relaciones humanas', 'Concursos', 'Reading Level-Grade 8', 'Books and reading', \"Children's fiction\", 'Novela juvenil', 'Large type books', 'Dystopias', 'Supervivencia', 'Contests', 'Young adult fiction', 'Reading Level-Grade 11', 'Television game shows', 'Programas de televisión', 'Television, fiction', 'Fiction', 'Concours et compétitions', 'Reading Level-Grade 12', 'Action & Adventure', 'Television programs', 'Survival', 'Reality television programs', 'Romans, nouvelles, etc. pour la jeunesse', 'Interpersonal relations, fiction', 'Interpersonal relations', 'Reading Level-Grade 10', 'Spanish language materials', 'Contests, fiction', 'Science fiction', 'Programas']\n",
+            "Common characters are: ['President Snow', 'Cinna', 'Thresh', 'Rue', 'Katniss Everdeen', 'Peacekeepers', 'Peeta Mellark']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Web Scraping with *BeautifulSoup*"
+      ],
+      "metadata": {
+        "id": "7K2Z02bpcI9S"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import urllib.request, urllib.parse\n",
+        "from bs4 import BeautifulSoup\n",
+        "import pandas as pd"
+      ],
+      "metadata": {
+        "id": "WBpY2PsPcUpu"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def scrape_books(url):\n",
+        "  Titles = []\n",
+        "  Ratings = []\n",
+        "  Prices = []\n",
+        "\n",
+        "  html = urllib.request.urlopen(url).read()\n",
+        "  soup = BeautifulSoup(html, 'html.parser')\n",
+        "  books = soup.find('ol', class_='row').find_all('li', class_='col-xs-6 col-sm-4 col-md-3 col-lg-3')\n",
+        "\n",
+        "  for b in books:\n",
+        "    title = soup.find('h3').find('a').get('title')\n",
+        "    print('Title:', title)\n",
+        "    Titles.append(title)\n",
+        "\n",
+        "    star = soup.find('p', class_='star-rating')\n",
+        "    rating = star['class'][1]\n",
+        "    print('Rating:', rating)\n",
+        "    Ratings.append(rating)\n",
+        "\n",
+        "    price = soup.find('div', class_='product_price').find('p', class_='price_color').text\n",
+        "    print('Price:', price)\n",
+        "    Prices.append(price)\n",
+        "\n",
+        "    print('---------------')\n",
+        "\n",
+        "  next_page_tag = soup.find('ul', class_='pager').find('li', class_='next')\n",
+        "  if next_page_tag:\n",
+        "        next_url = next_page_tag.find('a')['href']\n",
+        "        base_url = re.sub(r'(.*fiction_4/).*', r'\\1', url)\n",
+        "        next_page_url = urllib.parse.urljoin(base_url, next_url)\n",
+        "        next_page_data = scrape_books(next_page_url)\n",
+        "        Titles.extend(next_page_data[0])\n",
+        "        Ratings.extend(next_page_data[1])\n",
+        "        Prices.extend(next_page_data[2])\n",
+        "\n",
+        "  return Titles, Ratings, Prices"
+      ],
+      "metadata": {
+        "id": "3XCxf8-IAGuD"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "start_url = 'https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html'\n",
+        "rp_webs = robotparser.RobotFileParser()\n",
+        "rp_webs.set_url(f\"{start_url}/robots.txt\")\n",
+        "rp_webs.read()\n",
+        "print(rp_webs.can_fetch('*', start_url))"
+      ],
+      "metadata": {
+        "id": "TILM9FDTAGsa",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "3395fd24-daff-4911-ad6f-77c784435b78"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "True\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "req = urllib.request.Request(start_url)\n",
+        "response = urllib.request.urlopen(req)"
+      ],
+      "metadata": {
+        "id": "MMU6jhMBcRt8"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "gourM193cRsu"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Response Headers\n",
+        "print(response.headers)"
+      ],
+      "metadata": {
+        "id": "liyw_Gj1KaCu",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "9aaed2c9-c9d4-4771-fec7-106cf5cd2611"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Date: Fri, 19 Apr 2024 13:00:32 GMT\n",
+            "Content-Type: text/html\n",
+            "Content-Length: 50109\n",
+            "Connection: close\n",
+            "Last-Modified: Wed, 08 Feb 2023 21:02:32 GMT\n",
+            "ETag: \"63e40de8-c3bd\"\n",
+            "Accept-Ranges: bytes\n",
+            "Strict-Transport-Security: max-age=0; includeSubDomains; preload\n",
+            "\n",
+            "\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Some General Headers\n",
+        "print(response.getcode())"
+      ],
+      "metadata": {
+        "id": "oQYrAW4AKbrC",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "3ca66d82-a06c-47b5-cbfd-b2e4c167debc"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "200\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(req.get_method())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vqV5DQXlc1SD",
+        "outputId": "9f4cec13-28ab-4e55-8d72-56a83eb9503a"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "GET\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(response.url)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DFmOVmobdCJ0",
+        "outputId": "a0103d1a-2ba5-421a-f9ac-e1815bd7a686"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "titles, ratings, prices = scrape_books(start_url)"
+      ],
+      "metadata": {
+        "id": "7ysTxFBWCVoT",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "0727a901-3561-43c9-e593-b6cf426b668f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Tipping the Velvet\n",
+            "Rating: One\n",
+            "Price: £53.74\n",
+            "---------------\n",
+            "Title: Between Shades of Gray\n",
+            "Rating: Five\n",
+            "Price: £20.79\n",
+            "---------------\n",
+            "Title: Between Shades of Gray\n",
+            "Rating: Five\n",
+            "Price: £20.79\n",
+            "---------------\n",
+            "Title: Between Shades of Gray\n",
+            "Rating: Five\n",
+            "Price: £20.79\n",
+            "---------------\n",
+            "Title: Between Shades of Gray\n",
+            "Rating: Five\n",
+            "Price: £20.79\n",
+            "---------------\n",
+            "Title: Between Shades of Gray\n",
+            "Rating: Five\n",
+            "Price: £20.79\n",
+            "---------------\n",
+            "Title: Between Shades of Gray\n",
+            "Rating: Five\n",
+            "Price: £20.79\n",
+            "---------------\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "data = {'Title': titles, 'Rating': ratings, 'Price': prices}\n",
+        "df = pd.DataFrame(data)"
+      ],
+      "metadata": {
+        "id": "yiBV8VBsANZW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df['Price'] = df['Price'].str.replace('£', '')\n",
+        "print(df)"
+      ],
+      "metadata": {
+        "id": "Y7935q9-AbUu",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "21320c45-ca03-44f2-ed2e-3096a65961a7"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "                     Title Rating  Price\n",
+            "0       Tipping the Velvet    One  53.74\n",
+            "1       Tipping the Velvet    One  53.74\n",
+            "2       Tipping the Velvet    One  53.74\n",
+            "3       Tipping the Velvet    One  53.74\n",
+            "4       Tipping the Velvet    One  53.74\n",
+            "5       Tipping the Velvet    One  53.74\n",
+            "6       Tipping the Velvet    One  53.74\n",
+            "7       Tipping the Velvet    One  53.74\n",
+            "8       Tipping the Velvet    One  53.74\n",
+            "9       Tipping the Velvet    One  53.74\n",
+            "10      Tipping the Velvet    One  53.74\n",
+            "11      Tipping the Velvet    One  53.74\n",
+            "12      Tipping the Velvet    One  53.74\n",
+            "13      Tipping the Velvet    One  53.74\n",
+            "14      Tipping the Velvet    One  53.74\n",
+            "15      Tipping the Velvet    One  53.74\n",
+            "16      Tipping the Velvet    One  53.74\n",
+            "17      Tipping the Velvet    One  53.74\n",
+            "18      Tipping the Velvet    One  53.74\n",
+            "19      Tipping the Velvet    One  53.74\n",
+            "20  Between Shades of Gray   Five  20.79\n",
+            "21  Between Shades of Gray   Five  20.79\n",
+            "22  Between Shades of Gray   Five  20.79\n",
+            "23  Between Shades of Gray   Five  20.79\n",
+            "24  Between Shades of Gray   Five  20.79\n",
+            "25  Between Shades of Gray   Five  20.79\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.to_csv('books_data.csv', index=False)"
+      ],
+      "metadata": {
+        "id": "9FjxxLWGAjFi"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
