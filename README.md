@@ -10,7 +10,7 @@ ACM-W BPDC is the local chapter of ACM-W dedicated to supporting and empowering 
   2. Backend Development Workshop Series
   3. Web Scraping Workshop Series
 
-# Individual Sessions
+## Individual Sessions
   - **Introduction to Machine Learning:** A brief overview session covering basic concepts and applications of machine learning.
 
 Let's learn, grow, and empower each other in the world of technology! 💻✨
